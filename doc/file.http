@@ -1,0 +1,7 @@
+POST http://localhost:8080/pets
+Content-Type: application/json
+
+{
+  "id": "jjjj1111jjjj",
+  "name": "goldfish"
+}

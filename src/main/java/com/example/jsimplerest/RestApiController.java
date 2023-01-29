@@ -1,5 +1,6 @@
 package com.example.jsimplerest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,11 @@ import java.util.Optional;
 @RequestMapping("/pets")
 public class RestApiController {
 
-    private List<Pet> pets = new ArrayList<>();
+    @Autowired
+    public PetRepository petRepository;
 
-    public RestApiController() {
-        pets.addAll(List.of(
+    public RestApiController(PetRepository petRepository) {
+        petRepository.saveAll(List.of(
                 new Pet("dog"),
                 new Pet("cat"),
                 new Pet("parrot"),
@@ -26,42 +28,29 @@ public class RestApiController {
 
     @GetMapping
     Iterable<Pet> getPets(){
-        return pets;
+        return petRepository.findAll();
     }
 
     @GetMapping("/{id}")
     Optional<Pet> getPetById(@PathVariable String id){
-        for (Pet pet : pets) {
-            if (pet.getId().equals(id)) {
-                return Optional.of(pet);
-            }
-        }
-        return Optional.empty();
+        return petRepository.findById(id);
     }
 
     @PostMapping
     Pet postPet(@RequestBody Pet pet){
-        pets.add(pet);
-        return pet;
+        return petRepository.save(pet);
     }
 
     @PutMapping("/{id}")
     ResponseEntity<Pet> putPet(@PathVariable String id, @RequestBody Pet pet){
-        int petIndex = -1;
 
-        for (Pet p : pets) {
-            if (p.getId().equals(id)){
-                petIndex = pets.indexOf(p);
-                pets.set(petIndex, pet);
-            }
-        }
-        return (petIndex == -1) ?
-                new ResponseEntity<>(postPet(pet), HttpStatus.CREATED) :
-                new ResponseEntity<>(pet, HttpStatus.OK);
+        return (!petRepository.existsById(id)) ?
+                new ResponseEntity<>(petRepository.save(pet), HttpStatus.CREATED) :
+                new ResponseEntity<>(petRepository.save(pet), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     void deletePet(@PathVariable String id) {
-        pets.removeIf(pet -> pet.getId().equals(id));
+        petRepository.deleteById(id);
     }
 }

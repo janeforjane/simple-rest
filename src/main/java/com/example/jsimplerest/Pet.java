@@ -1,9 +1,17 @@
 package com.example.jsimplerest;
 
+
+
+
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class Pet {
 
+    @Id
     private String id;
     private String name;
 

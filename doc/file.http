@@ -5,3 +5,18 @@ Content-Type: application/json
   "id": "jjjj1111jjjj",
   "name": "goldfish"
 }
+
+###
+
+GET http://localhost:8080/pets
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8080/pets/jjjj33
+Content-Type: application/json
+
+{
+  "id": "jjjj33",
+  "name": "golfish"
+}

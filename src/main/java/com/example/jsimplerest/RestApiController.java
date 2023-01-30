@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,15 +13,6 @@ public class RestApiController {
 
     @Autowired
     public PetRepository petRepository;
-
-    public RestApiController(PetRepository petRepository) {
-        petRepository.saveAll(List.of(
-                new Pet("dog"),
-                new Pet("cat"),
-                new Pet("parrot"),
-                new Pet("hamster")
-        ));
-    }
 
     @GetMapping
     Iterable<Pet> getPets(){
@@ -44,9 +32,9 @@ public class RestApiController {
     @PutMapping("/{id}")
     ResponseEntity<Pet> putPet(@PathVariable String id, @RequestBody Pet pet){
 
-        return (!petRepository.existsById(id)) ?
-                new ResponseEntity<>(petRepository.save(pet), HttpStatus.CREATED) :
-                new ResponseEntity<>(petRepository.save(pet), HttpStatus.OK);
+        return (petRepository.existsById(id)) ?
+                new ResponseEntity<>(petRepository.save(pet), HttpStatus.OK) :
+                new ResponseEntity<>(petRepository.save(pet), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

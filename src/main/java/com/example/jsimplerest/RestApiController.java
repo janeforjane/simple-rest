@@ -5,40 +5,56 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pets")
+@RequestMapping("/animals")
 public class RestApiController {
 
     @Autowired
-    public PetRepository petRepository;
+    public AnimalRepository animalRepository;
+
+    @Autowired
+    private ConfigMap configMap;
 
     @GetMapping
-    Iterable<Pet> getPets(){
-        return petRepository.findAll();
+    Iterable<Animal> getAnimals(){
+        return animalRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    Optional<Pet> getPetById(@PathVariable String id){
-        return petRepository.findById(id);
+    Optional<Animal> getAnimalById(@PathVariable String id){
+        return animalRepository.findById(id);
+    }
+
+    @GetMapping("/countries/{countryId}")
+    Iterable<Animal> getAnimalsByCountryId(@PathVariable String countryId){
+        List<Animal> animals = new ArrayList<>();
+        animalRepository.findAll().forEach(animals::add);
+
+        String requiredCountry = configMap.getCountries().get(countryId);
+        animals.removeIf(animal -> !(animal.getOriginCountry().equals(requiredCountry)));
+
+        return animals;
     }
 
     @PostMapping
-    Pet postPet(@RequestBody Pet pet){
-        return petRepository.save(pet);
+    Animal postAnimal(@RequestBody Animal animal){
+        return animalRepository.save(animal);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Pet> putPet(@PathVariable String id, @RequestBody Pet pet){
+    ResponseEntity<Animal> putAnimal(@PathVariable String id, @RequestBody Animal animal){
 
-        return (petRepository.existsById(id)) ?
-                new ResponseEntity<>(petRepository.save(pet), HttpStatus.OK) :
-                new ResponseEntity<>(petRepository.save(pet), HttpStatus.CREATED);
+        return (animalRepository.existsById(id)) ?
+                new ResponseEntity<>(animalRepository.save(animal), HttpStatus.OK) :
+                new ResponseEntity<>(animalRepository.save(animal), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    void deletePet(@PathVariable String id) {
-        petRepository.deleteById(id);
+    void deleteAnimal(@PathVariable String id) {
+        animalRepository.deleteById(id);
     }
 }

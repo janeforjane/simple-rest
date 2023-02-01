@@ -1,0 +1,10 @@
+application:
+  mapping:
+    countries:
+      f: "france"
+      e: "england"
+      j: "japan"
+      r: "russia"
+      c: "china"
+
+

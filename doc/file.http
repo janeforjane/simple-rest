@@ -1,22 +1,29 @@
-POST http://localhost:8080/pets
+POST http://localhost:8080/animals
 Content-Type: application/json
 
 {
-  "id": "jjjj1111jjjj",
-  "name": "goldfish"
+  "id": "ssss2222",
+  "name": "panda",
+  "originCountry": "japan"
 }
 
 ###
 
-GET http://localhost:8080/pets
+GET http://localhost:8080/animals
 Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/pets/jjjj33
+PUT http://localhost:8080/animals/jjjj33
 Content-Type: application/json
 
 {
   "id": "jjjj33",
-  "name": "golfish"
+  "name": "panda",
+  "originCountry": "japan"
 }
+
+###
+
+GET http://localhost:8080/animals/countries/j
+Content-Type: application/json

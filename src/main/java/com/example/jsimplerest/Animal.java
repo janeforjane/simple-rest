@@ -9,22 +9,25 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class Pet {
+public class Animal {
 
     @Id
     private String id;
     private String name;
 
-    public Pet() {
+    private String originCountry;
+
+    public Animal() {
     }
 
-    public Pet(String id, String name) {
+    public Animal(String id, String name, String originCountry) {
         this.id = id;
         this.name = name;
+        this.originCountry = originCountry;
     }
 
-    public Pet(String name) {
-        this(UUID.randomUUID().toString(), name);
+    public Animal(String name, String originCountry) {
+        this(UUID.randomUUID().toString(), name, originCountry);
     }
 
     public void setId(String id) {
@@ -41,5 +44,13 @@ public class Pet {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOriginCountry() {
+        return originCountry;
+    }
+
+    public void setOriginCountry(String originCountry) {
+        this.originCountry = originCountry;
     }
 }

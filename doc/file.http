@@ -1,5 +1,6 @@
 POST http://localhost:8080/animals
 Content-Type: application/json
+Authorization: Basic username password
 
 {
   "id": "ssss2222",
@@ -11,6 +12,8 @@ Content-Type: application/json
 
 GET http://localhost:8080/animals
 Content-Type: application/json
+#Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+Authorization: Basic username password
 
 ###
 

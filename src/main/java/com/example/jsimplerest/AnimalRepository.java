@@ -1,9 +1,5 @@
 package com.example.jsimplerest;
 
-
-
-
-//import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +13,5 @@ public interface AnimalRepository extends CrudRepository<Animal, String> {
 
     List<Animal> findAnimalsByOriginCountry(String originCountry);
 
-//    @Query("SELECT * from animals where name=:s")//query on an appropriated language for your db
-//    List<Animal> finfSomethingSomehow(String s);
 
 }

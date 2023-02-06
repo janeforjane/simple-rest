@@ -3,12 +3,9 @@ package com.example.jsimplerest;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-//import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 
-
-//@Table()
 @Entity
 public class Animal {
 

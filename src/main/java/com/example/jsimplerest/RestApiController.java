@@ -1,5 +1,7 @@
 package com.example.jsimplerest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class RestApiController {
     @Autowired
     private ConfigMap configMap;
 
+    private static final Logger log = LogManager.getLogger(RestApiController.class);
+
     @GetMapping
     Iterable<Animal> getAnimals(){
         return animalRepository.findAll();
@@ -31,17 +35,15 @@ public class RestApiController {
 
     @GetMapping("/countries/{countryId}")
     Iterable<Animal> getAnimalsByCountryId(@PathVariable String countryId){
-        List<Animal> animals = new ArrayList<>();
-        animalRepository.findAll().forEach(animals::add);
-
         String requiredCountry = configMap.getCountries().get(countryId);
-        animals.removeIf(animal -> !(animal.getOriginCountry().equals(requiredCountry)));
+        log.info("Value of required country is: {}", requiredCountry);
 
-        return animals;
+        return animalRepository.findAnimalsByOriginCountry(requiredCountry);
     }
 
     @PostMapping
     Animal postAnimal(@RequestBody Animal animal){
+        log.info("Post new animal: {}", animal.toString());
         return animalRepository.save(animal);
     }
 
